@@ -1,0 +1,11 @@
+{
+  "name": "adventures",
+  "version": "1.0.0",
+  "description": "To manage all my work flows and files",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "RSFun",
+  "license": "ISC"
+}
