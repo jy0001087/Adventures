@@ -1,9 +1,13 @@
 const { app,BrowserWindow } = require('electron')
+const path = require('node:path')
 
 const creatWindow = () => {
     const win = new BrowserWindow({
         width:800,
         heght:600,
+        webPreferences: {
+            preload: path.join(__dirname, 'UI/editor_preload.js')
+          }
     })
 
     win.loadFile('UI/editor.html')

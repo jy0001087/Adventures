@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>MarkDown</title>
-    <script type="text/javascript" src="showdown.min.js"></script>
+    <script src="./editor.js"></script>
 </head>
 <style>
     body {
@@ -30,13 +30,5 @@
     <div id="result"></div>
 
 </div>
-<script type="text/javascript">
-function compile(){
-    var text = document.getElementById("content").value;
-    var converter = new showdown.Converter();
-    var html = converter.makeHtml(text);
-    document.getElementById("result").innerHTML = html;
-}
-</script>
 </body>
 </html>
