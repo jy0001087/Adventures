@@ -6,10 +6,12 @@ const creatWindow = () => {
         heght:600,
     })
 
-    //win.loadURL('https://www.bing.com')
     win.loadFile('UI/editor.html')
     win.webContents.openDevTools()
+
 }
+
+
 
 app.whenReady().then(() => {
     creatWindow()
