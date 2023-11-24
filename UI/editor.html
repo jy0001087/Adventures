@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>MarkDown</title>
     <script src="./editor.js"></script>
     <script src="../script/showdown.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./editor.css">
 </head>
+
 <body>
-<div id="backgroundpanel">
-    <div id="markdown-worker">
-        <div id="todolist">
-            <div id="newTodoList">新增待办</div>
-            <div id="todolist-content"></div>
-        </div>
-        <textarea id="content" onkeyup="compile()"></textarea>
-        <div id="result-title">转换结果
-             <div id="result"></div>
+    <div id="backgroundpanel">
+        <div id="markdown-worker">
+            <div id="todolist">
+                <div id="newTodoList">新增待办</div>
+                <div id="todolist-content"></div>
+            </div>
+            <div id="todolist-warpper">
+                <div id="todolist-title"></div>
+                <div id="todolist-editor">
+                    <textarea id="content" onkeyup="compile()"></textarea>
+                    <div id="result-title">转换结果
+                        <div id="result"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>
+
 </html>
