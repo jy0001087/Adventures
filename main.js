@@ -6,6 +6,7 @@ const creatWindow = () => {
         width:800,
         heght:600,
         webPreferences: {
+            nodeIntegration:true,
             preload: path.join(__dirname, 'UI/editor_preload.js')
           }
     })
