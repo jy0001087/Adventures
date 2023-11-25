@@ -9,14 +9,48 @@ function compile() {
 window.onload = function () {
     var newTodo = document.getElementById("newTodoList");
     newTodo.onclick = function () {
+        var todolist_title= document.getElementById("todolist-title");
+
+        todolist_title.innerText="";
+        
+        //创建侧边todo列表栏控件
         var newTodoItem = document.createElement("div");
         newTodoItem.innerHTML = "新待办";
         var todolistContent = document.getElementById("todolist-content")
         todolistContent.appendChild(newTodoItem);
+
+        //左侧markdown编辑区标题栏增加输入控件
+        var newTodoItemTitle = document.createElement("input");
+        newTodoItemTitle.style.height="inherit";
+        newTodoItemTitle.style.width="inherit";
+        newTodoItemTitle.style.background="#6cb233";
+
+        
+        todolist_title.appendChild(newTodoItemTitle);
+
+        newTodoItemTitle.focus();
+
+        newTodoItemTitle.onblur = () =>{
+            let titlevalue= newTodoItemTitle.value;
+            if(titlevalue.length == 0){
+                newTodoItemTitle.style.background="#D34B62";
+                newTodoItemTitle.placeholder="请输入文字"
+                newTodoItemTitle.focus();
+            }else{
+                todolist_title.innerText = newTodoItemTitle.value;
+                todolist_title.removeChild(newTodoItemTitle);
+            }
+        }
+
+        newTodoItemTitle.oninput = () =>{
+            newTodoItemTitle.style.background="#6cb233";
+        }
     }
 
+    
     var text = document.getElementById("editor");
 
+    //markdown区域tab键处理
     text.onkeydown = () => {
         if (event.code !== "Tab") return true;
 
