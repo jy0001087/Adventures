@@ -37,8 +37,9 @@ window.onload = function () {
                 newTodoItemTitle.placeholder="请输入文字"
                 newTodoItemTitle.focus();
             }else{
-                todolist_title.innerText = newTodoItemTitle.value;
-                todolist_title.removeChild(newTodoItemTitle);
+                todolist_title.innerText = newTodoItemTitle.value; //替换innerText已经删除了newTodoItemTitle
+                newTodoItem.innerHTML =  todolist_title.innerText;
+                createTodoDir(newTodoItem.innerHTML);  //向主进程通讯，建立对应文件夹
             }
         }
 

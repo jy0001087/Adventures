@@ -1,4 +1,4 @@
-const { app,BrowserWindow } = require('electron')
+const { app,BrowserWindow,ipcMain } = require('electron')
 const path = require('node:path')
 
 const creatWindow = () => {
@@ -6,7 +6,6 @@ const creatWindow = () => {
         width:800,
         heght:600,
         webPreferences: {
-            nodeIntegration:true,
             preload: path.join(__dirname, 'UI/editor_preload.js')
           }
     })
@@ -19,7 +18,10 @@ const creatWindow = () => {
 
 
 app.whenReady().then(() => {
-    creatWindow()
+    creatWindow();
+    ipcMain.on("createTodoDir",(TodoListTitle)=>{
+        console.log(TodoListTitle);
+    })
 })
 
 //关闭窗口时，退出应用
