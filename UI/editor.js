@@ -3,23 +3,20 @@ function compile() {
     var converter = new showdown.Converter();
     var html = converter.makeHtml(text);
     document.getElementById("result").innerHTML = html;
-
-    var todolistTitle = document.getElementById();
-    saveTodoListContent(text,);
 }
 
 
 window.onload = function () {
     var newTodo = document.getElementById("newTodoList");
-    newTodo.onclick = function () {
-        var todolist_title= document.getElementById("todolist-title");
+    var todolistContent = document.getElementById("todolist-content");
+    var todolist_title= document.getElementById("todolist-title");
 
+    newTodo.onclick = function () {
         todolist_title.innerText="";
         
         //创建侧边todo列表栏控件
         var newTodoItem = document.createElement("div");
         newTodoItem.innerHTML = "新待办";
-        var todolistContent = document.getElementById("todolist-content")
         todolistContent.appendChild(newTodoItem);
 
         //左侧markdown编辑区标题栏增加输入控件
@@ -27,12 +24,10 @@ window.onload = function () {
         newTodoItemTitle.style.height="inherit";
         newTodoItemTitle.style.width="inherit";
         newTodoItemTitle.style.background="#6cb233";
-
-        
         todolist_title.appendChild(newTodoItemTitle);
-
+        //焦点给到新增的input元素
         newTodoItemTitle.focus();
-
+        //input失去焦点，检查是否有输入，有输入则删除input，并将input值给到todolist_title.innerText
         newTodoItemTitle.onblur = () =>{
             let titlevalue= newTodoItemTitle.value;
             if(titlevalue.length == 0){
@@ -77,6 +72,15 @@ window.onload = function () {
             text.setSelectionRange(curLineStart, end);
             document.execCommand("insertText", false, newStr);
             text.setSelectionRange(newStart, newEnd);
+        }
+    }
+
+
+    //监听全局ctrl+s保存事件
+    document.onkeydown = function(event){
+        if(event.ctrlKey&&event.keyCode ==83){
+            var fileName = todolist_title.innerHTML;
+            if(fileName.length != 0) saveTodoListContent(document.getElementById("editor").value,todolist_title.innerHTML); //textarea内容和菜单栏的标题内容
         }
     }
 }

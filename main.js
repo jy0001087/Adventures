@@ -23,8 +23,8 @@ app.whenReady().then(() => {
     ipcMain.on("createTodoDir",(event,TodoListTitle)=>{
         createTodoDir(TodoListTitle);
     });
-    ipcMain.on("saveTodoListContent",(event,TodoListContent)=>{
-        saveTodoListContent(TodoListContent);
+    ipcMain.on("saveTodoListContent",(event,TodoListContent,TodoListPath)=>{
+        saveTodoListContent(TodoListContent,TodoListPath);
     });
 })
 
@@ -41,6 +41,6 @@ function createTodoDir(TodoListTitle){
     });
 }
 
-function saveTodoListContent(TodoListContent){
-    console.log(TodoListContent.toString());
+function saveTodoListContent(TodoListContent,TodoListPath){
+    console.log(TodoListContent.toString()+"----"+TodoListPath.toString());
 }
