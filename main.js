@@ -1,4 +1,5 @@
 const { app,BrowserWindow,ipcMain } = require('electron')
+const fs = require('fs');
 const path = require('node:path')
 
 const creatWindow = () => {
@@ -19,12 +20,27 @@ const creatWindow = () => {
 
 app.whenReady().then(() => {
     creatWindow();
-    ipcMain.on("createTodoDir",(TodoListTitle)=>{
-        console.log(TodoListTitle);
-    })
+    ipcMain.on("createTodoDir",(event,TodoListTitle)=>{
+        createTodoDir(TodoListTitle);
+    });
+    ipcMain.on("saveTodoListContent",(event,TodoListContent)=>{
+        saveTodoListContent(TodoListContent);
+    });
 })
 
 //关闭窗口时，退出应用
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
   })
+
+
+function createTodoDir(TodoListTitle){
+    console.log(TodoListTitle.toString());
+    fs.mkdir("D:/MyFiles/文档/兴业材料/待办事项/"+TodoListTitle.toString(),(error) =>{
+        if(error) throw error ;
+    });
+}
+
+function saveTodoListContent(TodoListContent){
+    console.log(TodoListContent.toString());
+}
