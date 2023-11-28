@@ -1,6 +1,7 @@
 const { app,BrowserWindow,ipcMain } = require('electron')
 const fs = require('fs');
 const path = require('node:path')
+const todoListPath="D:/MyFiles/文档/兴业材料/待办事项/";
 
 const creatWindow = () => {
     const win = new BrowserWindow({
@@ -23,8 +24,8 @@ app.whenReady().then(() => {
     ipcMain.on("createTodoDir",(event,TodoListTitle)=>{
         createTodoDir(TodoListTitle);
     });
-    ipcMain.on("saveTodoListContent",(event,TodoListContent,TodoListPath)=>{
-        saveTodoListContent(TodoListContent,TodoListPath);
+    ipcMain.on("saveTodoListContent",(event,TodoListContent,TodoListFileName)=>{
+        saveTodoListContent(TodoListContent,TodoListFileName);
     });
 })
 
@@ -36,11 +37,17 @@ app.on('window-all-closed', () => {
 
 function createTodoDir(TodoListTitle){
     console.log(TodoListTitle.toString());
-    fs.mkdir("D:/MyFiles/文档/兴业材料/待办事项/"+TodoListTitle.toString(),(error) =>{
+    fs.mkdir(todoListPath+TodoListTitle.toString(),(error) =>{
         if(error) throw error ;
     });
 }
 
-function saveTodoListContent(TodoListContent,TodoListPath){
-    console.log(TodoListContent.toString()+"----"+TodoListPath.toString());
+function saveTodoListContent(TodoListContent,TodoListFileName){
+    console.log(TodoListContent.toString()+"----"+TodoListFileName.toString());
+    fs.writeFile(todoListPath+TodoListFileName+"/"+TodoListFileName+".md", TodoListContent, err => {
+        if (err) {
+          console.error(err);
+        }
+        // file written successfully
+      });
 }
