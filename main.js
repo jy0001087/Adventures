@@ -26,7 +26,7 @@ app.whenReady().then(() => {
     ipcMain.on("saveTodoListContent", (event, TodoListContent, TodoListFileName) => {
         saveTodoListContent(TodoListContent, TodoListFileName);
     });
-    // 向渲染进程发起消息
+    // did-finish-load等待窗口渲染结束后，向渲染进程发起消息
     const window = BrowserWindow.getFocusedWindow();
     window.webContents.on('did-finish-load', () => {
         fs.readdir(todoListPath, (error, files) => {
