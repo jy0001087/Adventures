@@ -1,53 +1,60 @@
-const { app,BrowserWindow,ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs');
 const path = require('node:path')
-const todoListPath="D:/MyFiles/文档/兴业材料/待办事项/";
+const todoListPath = "D:/MyFiles/文档/兴业材料/待办事项/";
 
 const creatWindow = () => {
     const win = new BrowserWindow({
-        width:800,
-        heght:600,
+        width: 800,
+        heght: 600,
         webPreferences: {
             preload: path.join(__dirname, 'UI/editor_preload.js')
-          }
-    })
+        }
+    });
 
-    win.loadFile('UI/editor.html')
-    win.webContents.openDevTools()
-
+    win.loadFile('UI/editor.html');
+    win.webContents.openDevTools();
 }
 
 
 
 app.whenReady().then(() => {
     creatWindow();
-    ipcMain.on("createTodoDir",(event,TodoListTitle)=>{
+    ipcMain.on("createTodoDir", (event, TodoListTitle) => {
         createTodoDir(TodoListTitle);
     });
-    ipcMain.on("saveTodoListContent",(event,TodoListContent,TodoListFileName)=>{
-        saveTodoListContent(TodoListContent,TodoListFileName);
+    ipcMain.on("saveTodoListContent", (event, TodoListContent, TodoListFileName) => {
+        saveTodoListContent(TodoListContent, TodoListFileName);
     });
+    // 向渲染进程发起消息
+    const window = BrowserWindow.getFocusedWindow();
+    window.webContents.on('did-finish-load', () => {
+        fs.readdir(todoListPath, (error, files) => {
+            for (var dir of files) { console.log("F-readAllDir: " + dir.toString()); }
+            window.webContents.send("todoListDirArray", files);
+        });
+    })
 })
 
 //关闭窗口时，退出应用
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
-  })
+})
 
 
-function createTodoDir(TodoListTitle){
+function createTodoDir(TodoListTitle) {
     console.log(TodoListTitle.toString());
-    fs.mkdir(todoListPath+TodoListTitle.toString(),(error) =>{
-        if(error) throw error ;
+    fs.mkdir(todoListPath + TodoListTitle.toString(), (error) => {
+        if (error) throw error;
     });
 }
 
-function saveTodoListContent(TodoListContent,TodoListFileName){
-    console.log(TodoListContent.toString()+"----"+TodoListFileName.toString());
-    fs.writeFile(todoListPath+TodoListFileName+"/"+TodoListFileName+".md", TodoListContent, err => {
+function saveTodoListContent(TodoListContent, TodoListFileName) {
+    console.log(TodoListContent.toString() + "----" + TodoListFileName.toString());
+    fs.writeFile(todoListPath + TodoListFileName + "/" + TodoListFileName + ".md", TodoListContent, err => {
         if (err) {
-          console.error(err);
+            console.error(err);
         }
         // file written successfully
-      });
+    });
 }
