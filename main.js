@@ -26,6 +26,10 @@ app.whenReady().then(() => {
     ipcMain.on("saveTodoListContent", (event, TodoListContent, TodoListFileName) => {
         saveTodoListContent(TodoListContent, TodoListFileName);
     });
+    //接收reqLoadTodoContent消息，读取对应TodoListTitle.md文件并发回
+    ipcMain.on("reqLoadTodoContent", (event, TodoListTitle) => {
+        loadTodoContent(event, TodoListTitle);
+    });
     // did-finish-load等待窗口渲染结束后，向渲染进程发起消息
     const window = BrowserWindow.getFocusedWindow();
     window.webContents.on('did-finish-load', () => {
@@ -56,5 +60,15 @@ function saveTodoListContent(TodoListContent, TodoListFileName) {
             console.error(err);
         }
         // file written successfully
+    });
+}
+
+function loadTodoContent(event, TodoListTitle) {
+    fs.readFile(todoListPath+TodoListTitle+"/"+TodoListTitle+".md", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        event.sender.send("resLoadTodoContent", TodoListTitle, data);
     });
 }
