@@ -13,11 +13,6 @@ window.onload = function () {
 
     newTodo.onclick = function () {
         todolist_title.innerText="";
-        
-        //创建侧边todo列表栏控件
-        var newTodoItem = document.createElement("div");
-        newTodoItem.innerHTML = "新待办";
-        todolistContent.appendChild(newTodoItem);
 
         //左侧markdown编辑区标题栏增加输入控件
         var newTodoItemTitle = document.createElement("input");
@@ -36,7 +31,9 @@ window.onload = function () {
                 newTodoItemTitle.focus();
             }else{
                 todolist_title.innerText = newTodoItemTitle.value; //替换innerText已经删除了newTodoItemTitle
+                var newTodoItem = document.createElement("div");   //创建侧边todo列表栏控件
                 newTodoItem.innerHTML =  todolist_title.innerText;
+                todolistContent.todolistContentAppendChild(newTodoItem);
                 createTodoDir(newTodoItem.innerHTML);  //向主进程通讯，建立对应文件夹
             }
         }
