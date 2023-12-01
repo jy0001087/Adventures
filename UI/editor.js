@@ -8,7 +8,12 @@ function compile() {
 
 window.onload = function () {
     var newTodo = document.getElementById("newTodoList");
-    var todolistContent = document.getElementById("todolist-content");
+    
+    var todolistContent = new TodoMenuItemDivElement();
+    todolistContent.element.setAttribute("id","todolist-content");
+    var todolistwarpper = document.getElementById("todolist");
+    todolistwarpper.appendChild(todolistContent.element);
+
     var todolist_title= document.getElementById("todolist-title");
 
     newTodo.onclick = function () {
