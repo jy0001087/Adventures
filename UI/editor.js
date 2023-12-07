@@ -11,7 +11,6 @@ function compile() {
 window.onload = function () {
     var newTodo = document.getElementById("newTodoList");
     var todolistContent = document.getElementById("todolist-content");
-
     var todolist_title= document.getElementById("todolist-title");
 
     newTodo.onclick = function () {
@@ -78,9 +77,20 @@ window.onload = function () {
 
     //监听全局ctrl+s保存事件
     document.onkeydown = function(event){
-        if(event.ctrlKey&&event.keyCode ==83){
+        if(event.ctrlKey&&event.key === 'S'){
             var fileName = todolist_title.innerHTML;
             if(fileName.length != 0) saveTodoListContent(document.getElementById("editor").value,todolist_title.innerHTML); //textarea内容和菜单栏的标题内容
         }
     }
+
+    //监听时间插入事件
+    document.getElementById("editor").addEventListener('keydown', function (event) {
+        // 检测是否按下 Ctrl + Shift + T
+        if (event.shiftKey && event.altKey && event.key === 'T') {
+            event.preventDefault(); // 阻止默认行为，防止打开新标签页
+
+            // 在光标处插入当前日期
+            insertCurrentDate();
+        }
+    });
 }
