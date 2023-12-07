@@ -1,3 +1,5 @@
+var targetDeleteTodoDiv;
+
 function compile() {
     var text = document.getElementById("editor").value;
     var converter = new showdown.Converter();

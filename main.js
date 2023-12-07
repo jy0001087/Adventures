@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs');
+const fse = require('fs-extra');
 const path = require('node:path')
 const todoListPath = "D:/MyFiles/文档/兴业材料/待办事项/";
 
@@ -29,6 +30,9 @@ app.whenReady().then(() => {
     //接收reqLoadTodoContent消息，读取对应TodoListTitle.md文件并发回
     ipcMain.on("reqLoadTodoContent", (event, TodoListTitle) => {
         loadTodoContent(event, TodoListTitle);
+    });
+    ipcMain.on("deleteTodoDir", (event, TodoListTitle) => {
+        deleteTodoDir(TodoListTitle);
     });
     // did-finish-load等待窗口渲染结束后，向渲染进程发起消息
     const window = BrowserWindow.getFocusedWindow();
@@ -71,4 +75,32 @@ function loadTodoContent(event, TodoListTitle) {
         }
         event.sender.send("resLoadTodoContent", TodoListTitle, data);
     });
+}
+
+//删除文件夹实际为移动到回收站
+function deleteTodoDir(TodoListTitle){
+    const destinationPath = todoListPath+"回收站"+"/"+TodoListTitle;
+    const sourcePath = todoListPath+"/"+TodoListTitle;
+
+    if (!fs.existsSync(destinationPath)) {
+        fs.mkdirSync(destinationPath);
+    }
+
+    // 读取源文件夹中的内容
+    fs.readdirSync(sourcePath).forEach((file) => {
+        const sourceFilePath = path.join(sourcePath, file);
+        const destinationFilePath = path.join(destinationPath, file);
+
+        // 将文件复制到目标文件夹
+        fs.copyFileSync(sourceFilePath, destinationFilePath);
+
+        // 如果是文件夹，递归移动子文件夹
+        if (fs.lstatSync(sourceFilePath).isDirectory()) {
+            moveFolder(sourceFilePath, destinationFilePath);
+        }
+    });
+
+    // 删除源文件夹
+    fse.removeSync(sourcePath);
+    console.log(`Folder ${sourcePath} moved to ${destinationPath} successfully.`);
 }
