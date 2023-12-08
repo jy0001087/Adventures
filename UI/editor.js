@@ -76,12 +76,12 @@ window.onload = function () {
 
 
     //监听全局ctrl+s保存事件
-    document.onkeydown = function(event){
-        if(event.ctrlKey&&event.key === 'S'){
+    document.addEventListener('keydown', function (event){
+        if(event.ctrlKey && event.key === 's'){
             var fileName = todolist_title.innerHTML;
             if(fileName.length != 0) saveTodoListContent(document.getElementById("editor").value,todolist_title.innerHTML); //textarea内容和菜单栏的标题内容
         }
-    }
+    });
 
     //监听时间插入事件
     document.getElementById("editor").addEventListener('keydown', function (event) {
