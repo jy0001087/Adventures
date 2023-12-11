@@ -25,6 +25,11 @@ code {
   background: #F9F2F4;
 }
 
+#todolist,#todolist-content,#todolist-title,#todolist-editor,#editor,#result {
+  border-radius: 5px;
+  padding: 15px;
+}
+
 #backgroundpanel {
   width: 100%;
   height: 100%;
@@ -50,14 +55,12 @@ code {
   line-height: 1.42857143;
 }
 
-#result-title {
-  height: 100%;
-  width: 50%;
-}
-
 #todolist-title {
-  height: 30px;
+  height: 50px;
   width: 100%;
+  font-family: Microsoft Yahei Mono;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 #todolist-warpper {
@@ -83,4 +86,8 @@ code {
 .menu-item {
   padding: 8px 12px;
   cursor: pointer;
+}
+
+.todoMenuTitle {
+  margin:5px;
 }

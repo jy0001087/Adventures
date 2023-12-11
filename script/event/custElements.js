@@ -2,6 +2,7 @@
 HTMLElement.prototype.todolistContentAppendChild = function (newChild) {
     // console.log("F-todolistContentAppendChild: ", newChild.innerHTML);
     const title = newChild.innerHTML;
+    newChild.classList.add("todoMenuTitle");
     newChild.onclick = function () {
         var editor = document.getElementById("editor");
         editor.value = "";
