@@ -3,7 +3,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('node:path')
 const todoListPath = "D:/MyFiles/文档/兴业材料/待办事项/";
-const {traverseMarkdownFiles,extractTodoItems} = require('./service/todoListService.js')
+const { traverseMarkdownFiles, extractTodoItems } = require('./service/todoListService.js')
 
 const creatWindow = () => {
     const win = new BrowserWindow({
@@ -35,20 +35,31 @@ app.whenReady().then(() => {
     ipcMain.on("deleteTodoDir", (event, TodoListTitle) => {
         deleteTodoDir(TodoListTitle);
     });
-
-    //读取所有待办事项，发送至UI界面
-    traverseMarkdownFiles(todoListPath)
-        .then((files) => {
-            const todos = files.flatMap((file) => {
-                const todoItems = extractTodoItems(file.content);
-                return todoItems.map((todo) => ({ filePath: file.filePath, todo }));
+    //收到send-json-to-renderer，读取md文件发送待办列表
+    ipcMain.on('send-json-to-renderer', (event,) => {
+        console.log('主进程收到渲染进程的请求:',);
+        //读取所有待办事项，发送至UI界面
+        traverseMarkdownFiles(todoListPath)
+            .then((files) => {
+                var todos = files.flatMap((file) => {
+                    const todoItems = extractTodoItems(file.content);
+                    //return todoItems.map((todo) => ({ filePath: file.filePath, todo }));
+                    if (todoItems.length > 0 ) {
+                        return {
+                            filePath: file.filePath,
+                            todoItems
+                        }
+                    }
+                });
+                todos =  todos.filter(element => element !== undefined); //去掉数组中的undefined
+                event.reply('json-response', JSON.stringify(todos, null, 2));
+                console.log(JSON.stringify(todos, null, 2));
+            })
+            .catch((error) => {
+                console.error('发生错误：', error);
             });
+    });
 
-            console.log(JSON.stringify(todos, null, 2));
-        })
-        .catch((error) => {
-            console.error('发生错误：', error);
-        });
     // did-finish-load等待窗口渲染结束后，向渲染进程发起消息
     const window = BrowserWindow.getFocusedWindow();
     window.webContents.on('did-finish-load', () => {

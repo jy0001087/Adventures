@@ -25,3 +25,8 @@ window.electronAPI.resLoadTodoContent((event,TodoListTitle,TodoContent)=>{
     var html = converter.makeHtml(TodoContent);
     document.getElementById("result").innerHTML = html;
 })
+
+window.electronAPI.JsonResponse((event,jsonString) =>{
+    var allNeedToDo = document.getElementById("allNeedToDo");
+    allNeedToDo.innerText=jsonString;
+})

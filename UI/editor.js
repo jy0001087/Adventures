@@ -79,7 +79,8 @@ window.onload = function () {
     document.addEventListener('keydown', function (event){
         if(event.ctrlKey && event.key === 's'){
             var fileName = todolist_title.innerHTML;
-            if(fileName.length != 0) saveTodoListContent(document.getElementById("editor").value,todolist_title.innerHTML); //textarea内容和菜单栏的标题内容
+            if(fileName.length != 0) saveTodoListContent(document.getElementById("editor").value,todolist_title.innerHTML); 
+            window.electronAPI.sendJsonToRenderer("666");//textarea内容和菜单栏的标题内容
         }
     });
 
