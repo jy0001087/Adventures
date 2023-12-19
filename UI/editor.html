@@ -18,16 +18,20 @@
                 <div id="newTodoList">新增待办</div>
                 <div id="todolist-content"></div>
             </div>
-            <div id="todolist-warpper">
-                <div id="todolist-title"></div>
-                <div id="todolist-editor">
-                    <textarea id="editor" onkeyup="compile()"></textarea>
-                    <div id="result"></div>
+            <div id="contentwappper">
+                <div id="todolist-warpper">
+                    <div id="todolist-title"></div>
+                    <div id="todolist-editor">
+                        <textarea id="editor" onkeyup="compile()"></textarea>
+                        <div id="result"></div>
+                    </div>
                 </div>
+                <div id="allNeedToDo"></div>
             </div>
         </div>
     </div>
-<!--右键菜单-->
+    <div id="state-bar">状态栏</div>
+    <!--右键菜单-->
     <div id="custom-menu">
         <div class="menu-item" onclick="deleteTodoDiv()">删除</div>
     </div>

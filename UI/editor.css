@@ -25,19 +25,19 @@ code {
   background: #F9F2F4;
 }
 
-#todolist,#todolist-content,#todolist-title,#todolist-editor,#editor,#result {
+#todolist,#todolist-content,#todolist-title,#todolist-editor,#editor,#result,#allNeedToDo {
   border-radius: 5px;
-  padding: 15px;
+  padding: 10px;
 }
 
 #backgroundpanel {
   width: 100%;
-  height: 100%;
+  height: 97%;
 }
 
 #markdown-worker {
   width: 100%;
-  height: 100%;
+  height: 97%;
   display: flex;
 }
 
@@ -56,7 +56,7 @@ code {
 }
 
 #todolist-title {
-  height: 50px;
+  height: 5%;
   width: 100%;
   font-family: Microsoft Yahei Mono;
   font-size: 25px;
@@ -64,11 +64,12 @@ code {
 }
 
 #todolist-warpper {
-  width: 80%;
+  width: 100%;
+  height: 80%;
 }
 
 #todolist-editor {
-  height: 100%;
+  height: 85%;
   width: 100%;
   display: flex;
 }
@@ -81,6 +82,24 @@ code {
   border: 1px solid #ccc;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+
+#contentwappper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+#allNeedToDo{
+  height: 20%;
+}
+
+#state-bar{
+  height: 2%;
+  width: 100%;
+  background-color: rgb(141, 7, 171)3c3;
+  align-content: center;
 }
 
 .menu-item {

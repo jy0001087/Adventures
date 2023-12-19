@@ -3,6 +3,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('node:path')
 const todoListPath = "D:/MyFiles/文档/兴业材料/待办事项/";
+const {traverseMarkdownFiles,extractTodoItems} = require('./service/todoListService.js')
 
 const creatWindow = () => {
     const win = new BrowserWindow({
@@ -34,6 +35,20 @@ app.whenReady().then(() => {
     ipcMain.on("deleteTodoDir", (event, TodoListTitle) => {
         deleteTodoDir(TodoListTitle);
     });
+
+    //读取所有待办事项，发送至UI界面
+    traverseMarkdownFiles(todoListPath)
+        .then((files) => {
+            const todos = files.flatMap((file) => {
+                const todoItems = extractTodoItems(file.content);
+                return todoItems.map((todo) => ({ filePath: file.filePath, todo }));
+            });
+
+            console.log(JSON.stringify(todos, null, 2));
+        })
+        .catch((error) => {
+            console.error('发生错误：', error);
+        });
     // did-finish-load等待窗口渲染结束后，向渲染进程发起消息
     const window = BrowserWindow.getFocusedWindow();
     window.webContents.on('did-finish-load', () => {
@@ -68,7 +83,7 @@ function saveTodoListContent(TodoListContent, TodoListFileName) {
 }
 
 function loadTodoContent(event, TodoListTitle) {
-    fs.readFile(todoListPath+TodoListTitle+"/"+TodoListTitle+".md", (err, data) => {
+    fs.readFile(todoListPath + TodoListTitle + "/" + TodoListTitle + ".md", (err, data) => {
         if (err) {
             console.error(err);
             return;
@@ -78,9 +93,9 @@ function loadTodoContent(event, TodoListTitle) {
 }
 
 //删除文件夹实际为移动到回收站
-function deleteTodoDir(TodoListTitle){
-    const destinationPath = todoListPath+"回收站"+"/"+TodoListTitle;
-    const sourcePath = todoListPath+"/"+TodoListTitle;
+function deleteTodoDir(TodoListTitle) {
+    const destinationPath = todoListPath + "回收站" + "/" + TodoListTitle;
+    const sourcePath = todoListPath + "/" + TodoListTitle;
 
     if (!fs.existsSync(destinationPath)) {
         fs.mkdirSync(destinationPath);
@@ -104,3 +119,4 @@ function deleteTodoDir(TodoListTitle){
     fse.removeSync(sourcePath);
     console.log(`Folder ${sourcePath} moved to ${destinationPath} successfully.`);
 }
+
